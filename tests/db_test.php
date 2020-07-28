@@ -30,7 +30,7 @@ class block_sharing_cart_db_testcase extends advanced_testcase {
      * @see xmldb_block_sharing_cart_upgrade() below the code: if ($oldversion < 2011111100)...
      * @test
      */
-    public function change_sharing_cart_table_column_names(): void {
+    public function change_sharing_cart_table_column_names() {
         $table = new xmldb_table($this->random_name());
         $fields = [
             'id' => new xmldb_field('id', XMLDB_TYPE_INTEGER, 10, true, XMLDB_NOTNULL, true),
@@ -78,7 +78,7 @@ class block_sharing_cart_db_testcase extends advanced_testcase {
      * @see xmldb_block_sharing_cart_upgrade() below the code: if ($oldversion < 2017121200)...
      * @test
      */
-    public function create_sharing_cart_section_table(): void {
+    public function create_sharing_cart_section_table() {
         $this->setAdminUser();
 
         // New script
@@ -103,7 +103,7 @@ class block_sharing_cart_db_testcase extends advanced_testcase {
      *@see xmldb_block_sharing_cart_upgrade() below the code: if ($oldversion < 2020072700)...
      * @test
      */
-    public function change_default_value_for_section_table(): void {
+    public function change_default_value_for_section_table() {
         $dbman = self::db()->get_manager();
         $table = $this->create_section_table();
 
@@ -130,7 +130,7 @@ class block_sharing_cart_db_testcase extends advanced_testcase {
      * @return xmldb_table
      * @throws ddl_exception|coding_exception
      */
-    private function create_section_table(string &$table_name = null): xmldb_table {
+    private function create_section_table(&$table_name = null) {
         if (empty($table_name)) {
             $table_name = $this->random_name();
         }
@@ -157,7 +157,7 @@ class block_sharing_cart_db_testcase extends advanced_testcase {
      * @throws coding_exception
      * @throws ddl_exception
      */
-    private function create_table(xmldb_table $table, array $fields = []): xmldb_table {
+    private function create_table(xmldb_table $table, array $fields = []) {
         foreach ($fields as $field) {
             if (!$field instanceof xmldb_field) {
                 continue;
@@ -186,7 +186,7 @@ class block_sharing_cart_db_testcase extends advanced_testcase {
      * @throws ddl_exception
      * @throws ddl_table_missing_exception
      */
-    private function drop_junk_tables(...$tables): void {
+    private function drop_junk_tables(...$tables) {
         if (empty($tables)) {
             $tables = $this->junk_tables;
         }
@@ -208,7 +208,7 @@ class block_sharing_cart_db_testcase extends advanced_testcase {
      * @throws ddl_exception
      * @throws ddl_table_missing_exception
      */
-    private function drop_tables(...$tables): void {
+    private function drop_tables(...$tables) {
         $dbman = self::db()->get_manager();
 
         foreach ($tables as $table) {
@@ -228,7 +228,7 @@ class block_sharing_cart_db_testcase extends advanced_testcase {
      * @return string
      * @throws Exception
      */
-    private function random_name(int $length = 16): string {
+    private function random_name($length = 16) {
         $chars = 'abcdefghijklmnopqrstuvwxyz';
         $position = mt_rand(0, strlen($chars) - 1);
         $first_letter = substr($chars, $position, 1);
@@ -244,7 +244,7 @@ class block_sharing_cart_db_testcase extends advanced_testcase {
      * @param xmldb_table $table
      * @return string[]
      */
-    private function get_column_names(xmldb_table $table): array {
+    private function get_column_names(xmldb_table $table) {
         $columns = self::db()->get_columns($table->getName());
 
         if (empty($columns)) {
@@ -260,7 +260,7 @@ class block_sharing_cart_db_testcase extends advanced_testcase {
      * Get moodle database
      * @return moodle_database
      */
-    private static function db(): moodle_database {
+    private static function db() {
         global $DB;
         return $DB;
     }

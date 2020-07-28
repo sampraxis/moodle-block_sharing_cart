@@ -383,7 +383,7 @@ class block_sharing_cart_privacy_testcase extends \core_privacy\tests\provider_t
      * Set session via GET method
      * @param object $user
      */
-    private function set_session_key(object $user): void {
+    private function set_session_key($user): void {
         // Set current user
         self::setUser($user);
 
@@ -398,7 +398,7 @@ class block_sharing_cart_privacy_testcase extends \core_privacy\tests\provider_t
      * @param object $module
      * @throws moodle_exception
      */
-    private function add_sharing_cart_activity(object $course, object $module): void {
+    private function add_sharing_cart_activity($course, $module): void {
         // Creating sharing cart item
         $controller = new \block_sharing_cart\controller();
         $controller->backup($module->cmid, false, $course->id);
@@ -412,7 +412,7 @@ class block_sharing_cart_privacy_testcase extends \core_privacy\tests\provider_t
      * @throws dml_exception
      * @throws moodle_exception
      */
-    private function add_sharing_cart_section(object $course, int $section = 0): string {
+    private function add_sharing_cart_section($course, $section = 0): string {
         global $DB;
 
         $section_record = $DB->get_record(
@@ -440,7 +440,7 @@ class block_sharing_cart_privacy_testcase extends \core_privacy\tests\provider_t
      * @return array
      * @throws dml_exception
      */
-    private function get_user_sharing_cart($user, ?object $course = null): array {
+    private function get_user_sharing_cart($user, $course = null): array {
         global $DB;
 
         $params = ['userid' => $user->id];
@@ -459,7 +459,7 @@ class block_sharing_cart_privacy_testcase extends \core_privacy\tests\provider_t
      * @param array $options
      * @return object
      */
-    private function create_assignment(object $course, int $section = 0, array $properties = [], array $options = []): object {
+    private function create_assignment($course, $section = 0, array $properties = [], array $options = []) {
         $properties['course'] = $course->id;
         $properties['section'] = $section;
         return $this->getDataGenerator()->create_module('assign', $properties, $options);
