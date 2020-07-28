@@ -53,10 +53,11 @@ class block_sharing_cart_db_testcase extends advanced_testcase {
         }
 
         $dbman = self::db()->get_manager();
+
         // Change column names
         foreach ($fields as $name => $field) {
-            // Skip id
-            if ($name === 'id') {
+            // Skip column that contain the same name
+            if ($field->getName() === $name) {
                 continue;
             }
             $dbman->rename_field($table, $field, $name);
