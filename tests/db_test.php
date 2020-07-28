@@ -242,13 +242,17 @@ class block_sharing_cart_db_testcase extends advanced_testcase {
     /**
      * @param xmldb_table $table
      * @return string[]
-     * @throws dml_exception
      */
     private function get_column_names(xmldb_table $table): array {
-        $sql = 'SELECT COLUMN_NAME FROM information_schema.COLUMNS'
-            . " WHERE TABLE_SCHEMA = DATABASE()"
-            . ' AND TABLE_NAME = "{'. $table->getName() .'}"';
-        return self::db()->get_fieldset_sql($sql);
+        $columns = self::db()->get_columns($table->getName());
+
+        if (empty($columns)) {
+            return [];
+        }
+
+        return array_map(function($column) {
+            return $column->name;
+        }, $columns);
     }
 
     /**
