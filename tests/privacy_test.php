@@ -22,9 +22,8 @@ class block_sharing_cart_privacy_testcase extends \core_privacy\tests\provider_t
 
     /**
      * Test getting the context for the user ID related to sharing cart.
-     * @test
      */
-    public function get_contexts_for_user(): void {
+    public function test_get_contexts_for_user(): void {
         $course = $this->getDataGenerator()->create_course();
         $user = $this->getDataGenerator()->create_user();
         $assign = $this->create_assignment($course, 1);
@@ -41,9 +40,9 @@ class block_sharing_cart_privacy_testcase extends \core_privacy\tests\provider_t
     }
 
     /**
-     * @test
+     * Testing get users in the context
      */
-    public function get_users_in_context(): void {
+    public function test_get_users_in_context(): void {
         $component = 'block_sharing_cart';
 
         $generator = $this->getDataGenerator();
@@ -94,11 +93,10 @@ class block_sharing_cart_privacy_testcase extends \core_privacy\tests\provider_t
 
     /**
      * Test exporting user data
-     * @test
      * @throws coding_exception
      * @throws moodle_exception
      */
-    public function export_user_data(): void {
+    public function test_export_user_data(): void {
         $generator = $this->getDataGenerator();
 
         // Prepare user, course and assignments
@@ -160,33 +158,32 @@ class block_sharing_cart_privacy_testcase extends \core_privacy\tests\provider_t
         $this->assertNotEmpty($data_section2_copy);
 
         foreach ($data_root as $data) {
-            $this->assertEquals('assign', $data['modname']);
-            $this->assertContains($data['modtext'], $root_cm_names);
+            $this->assertEquals('assign', $data['type']);
+            $this->assertContains($data['name'], $root_cm_names);
         }
 
         foreach ($data_section1 as $data) {
-            $this->assertEquals('assign', $data['modname']);
-            $this->assertContains($data['modtext'], $section1_cm_names);
+            $this->assertEquals('assign', $data['type']);
+            $this->assertContains($data['name'], $section1_cm_names);
         }
 
         foreach ($data_section2 as $data) {
-            $this->assertEquals('assign', $data['modname']);
-            $this->assertContains($data['modtext'], $section2_cm_names);
+            $this->assertEquals('assign', $data['type']);
+            $this->assertContains($data['name'], $section2_cm_names);
         }
 
         foreach ($data_section2_copy as $data) {
-            $this->assertEquals('assign', $data['modname']);
-            $this->assertContains($data['modtext'], $section2_cm_names);
+            $this->assertEquals('assign', $data['type']);
+            $this->assertContains($data['name'], $section2_cm_names);
         }
     }
 
     /**
-     * @test
      * @throws coding_exception
      * @throws dml_exception
      * @throws moodle_exception
      */
-    public function delete_data_for_all_users_in_context(): void {
+    public function test_delete_data_for_all_users_in_context(): void {
         $generator = $this->getDataGenerator();
         $course = $generator->create_course();
         $assign = $this->create_assignment($course, 1);
@@ -211,8 +208,7 @@ class block_sharing_cart_privacy_testcase extends \core_privacy\tests\provider_t
      * Test delete data for users
      * @test
      */
-    public function delete_data_for_users() {
-        global $DB;
+    public function test_delete_data_for_users() {
 
         $generator = $this->getDataGenerator();
         $component = 'block_sharing_cart';
@@ -328,9 +324,8 @@ class block_sharing_cart_privacy_testcase extends \core_privacy\tests\provider_t
 
     /**
      * Test delete data for user
-     * @test
      */
-    public function delete_data_for_user(): void {
+    public function test_delete_data_for_user(): void {
         global $DB;
 
         $generator = $this->getDataGenerator();

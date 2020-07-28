@@ -356,12 +356,12 @@ class controller {
 
             if ($DB->record_exists("block_sharing_cart", array("tree" => $foldername, 'userid' => $USER->id))) {
                 $folder_like = $DB->sql_like_escape($foldername);
-                $sql = 'SELECT `tree` FROM {block_sharing_cart}'
-                    . ' WHERE `tree` LIKE :tree AND `userid` = :userid';
 
                 // Get other folder that contain increment number
-                $folders = $DB->get_fieldset_sql(
-                    $sql,
+                $folders = $DB->get_fieldset_select(
+                    'block_sharing_cart',
+                    'tree',
+                    'tree LIKE :tree AND userid = :userid',
                     ['userid' => $USER->id, 'tree' => $folder_like . ' (%)']
                 );
 

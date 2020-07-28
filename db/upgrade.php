@@ -112,15 +112,39 @@ function xmldb_block_sharing_cart_upgrade($oldversion = 0) {
         $table = new xmldb_table('block_sharing_cart_sections');
         if (!$dbman->table_exists($table)) {
             $table->add_field('id', XMLDB_TYPE_INTEGER, 10, null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
-            $table->add_field('name', XMLDB_TYPE_CHAR, 255, null, XMLDB_NOTNULL, null, '', 'id');
-            $table->add_field('summary', XMLDB_TYPE_TEXT, null, null, null, null, '', 'name');
-            $table->add_field('summaryformat', XMLDB_TYPE_INTEGER, 2, null, XMLDB_NOTNULL, null, 0, 'summary');
+            $table->add_field('name', XMLDB_TYPE_CHAR, 255, null, XMLDB_NOTNULL, null, null, 'id');
+            $table->add_field('summary', XMLDB_TYPE_TEXT, null, null, null, null, null, 'name');
+            $table->add_field('summaryformat', XMLDB_TYPE_INTEGER, 2, null, XMLDB_NOTNULL, false, 0, 'summary');
 
             $table->add_key('id', XMLDB_KEY_PRIMARY, array('id'));
             $dbman->create_table($table);
         }
 
         upgrade_block_savepoint(true, 2017121200, 'sharing_cart');
+    }
+
+    // Fixed corrupt field properties that not compatible with moodle db installer
+    // Issue is related to https://github.com/donhinkelman/moodle-block_sharing_cart/issues/6
+    if ($oldversion < 2020072700) {
+        $table = new xmldb_table('block_sharing_cart_sections');
+
+        if ($dbman->table_exists($table)) {
+            $field_name = new xmldb_field('name', XMLDB_TYPE_CHAR, 255, null, XMLDB_NOTNULL, null, null);
+            $field_summary = new xmldb_field('summary', XMLDB_TYPE_TEXT, null, null, null, null, null, 'name');
+            $field_summaryformat = new xmldb_field('summaryformat', XMLDB_TYPE_INTEGER, 2, null, XMLDB_NOTNULL, false, 0, 'summary');
+
+            if ($dbman->field_exists($table, $field_name)) {
+                $dbman->change_field_default($table, $field_name);
+            }
+            if ($dbman->field_exists($table, $field_summary)) {
+                $dbman->change_field_default($table, $field_summary);
+            }
+            if ($dbman->field_exists($table, $field_summaryformat)) {
+                $dbman->change_field_default($table, $field_summaryformat);
+            }
+        }
+
+        upgrade_block_savepoint(true, 2020072700, 'sharing_cart');
     }
 
     return true;
