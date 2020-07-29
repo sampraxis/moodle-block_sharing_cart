@@ -7,7 +7,6 @@ servics:
 
 addons:
  firefox: "47.0.1"
- postgresql: "9.4"
  apt:
   packages:
    - openjdk-8-jre-headless
@@ -29,7 +28,15 @@ env:
     - MOODLE_BRANCH=MOODLE_36_STABLE DB=mysqli
     - MOODLE_BRANCH=MOODLE_37_STABLE DB=mysqli
     - MOODLE_BRANCH=MOODLE_38_STABLE DB=mysqli
+    - MOODLE_BRANCH=MOODLE_39_STABLE DB=mysqli
     - MOODLE_BRANCH=master DB=mysqli
+# Ignore PHP 7.4 with MOODLE_36_STABLE & MOODLE_37_STABLE since they contain deprecated code in PHP 7.4
+jobs:
+  exclude:
+    - php: 7.4
+      env: MOODLE_BRANCH=MOODLE_36_STABLE
+    - php: 7.4
+      env: MOODLE_BRANCH=MOODLE_37_STABLE
 before_install:
   - phpenv config-rm xdebug.ini
   - |
